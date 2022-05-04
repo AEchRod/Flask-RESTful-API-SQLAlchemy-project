@@ -25,6 +25,7 @@ api.add_resource(UserRegister, '/register')
 
 
 if __name__ == "main":
+    from db import db
     db.init_app(db) #we pass our Flask app here to avoid circular imports.
     app.run(port=5000, debug= True) #debug= True means that we won't have to restart our app every time we make a change.
 
