@@ -6,7 +6,6 @@ from resources.equity import Equity, Portfolio
 from resources.user import UserRegister
 from security import identity, authenticate
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #this indicates where the database is located.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #we turn this off to save resources (Flask SQLAlchemy tracker) and SQLAlchemy has own modification tracker.
