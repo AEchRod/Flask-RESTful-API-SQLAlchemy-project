@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.equitymodel import EquityModel
+from models.portfoliomodel import PortfolioModel
 
 #this is a resource as flask_restful works with resources.
 class Equity(Resource):
@@ -60,9 +61,8 @@ class Equity(Resource):
         return equity.json() #return json to make sure it is saved in db.
 
 class Portfolio(Resource):
-    TABLE_NAME = 'equities'
 
     @jwt_required
     def get(self):
-        return {'equities': [equity.json() for equity in EquityModel.query.all()]}  # this retrieves JSON for all objects in database
+        return {'equities': [equity.json() for equity in PortfolioModel.query.all()]}  # this retrieves JSON for all objects in database
         # this is a list comprehension for all items in the database.

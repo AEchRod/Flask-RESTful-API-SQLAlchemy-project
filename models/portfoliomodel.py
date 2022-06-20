@@ -18,9 +18,8 @@ class PortfolioModel(db.Model):
         return {"equity": self.equity, "price": self.price}
 
     @classmethod
-    def find_by_name(cls): #or find_by_name(cls, equity)
-        name = cls.equity
-        return EquityModel.find_by_name(name)
+    def find_by_name(cls, equity): #or find_by_name(cls, equity)
+        return cls.query.filter_by(equity=equity).first()
 
     def save_to_db(self):
         db.session.add(self) #it adds our model to database
