@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
-from db import db
 from resources.user import User, UserLogin, UserLogout, UserRegister, TokenRefresh
 from resources.equity import Equity, Portfolio
 from blacklist import BLACKLIST
@@ -12,18 +11,14 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #this indicates where the database is located.
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False #we turn this off to save resources (Flask SQLAlchemy tracker) and SQLAlchemy has own modification tracker.
 app.config['PROPAGATE_EXCEPTIONS'] = True #this returns specific errors.
-app.config['JWT_BLACKLIST_ENABLED'] = True #this enables the blacklisting process
-app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh'] #we enable blacklist for both access and refresh token
-app.secret_key = 'asdf'
 api = Api(app)
 
 #jwt = JWT(app, authenticate, identity) # /auth (endpoint)
+app.config['JWT_BLACKLIST_ENABLED'] = True #this enables the blacklisting process
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh'] #we enable blacklist for both access and refresh token
+app.secret_key = 'asdf'
 jwt = JWTManager(app)
 #WE NOW CREATE /AUTH IN USER RESOURCE
-
-@app.before_first_request #this decorator affects the method below it.
-def create_tables():
-    db.create_all() #this functions will run before the first request and will create the data.db file.
 
 @jwt.additional_claims_loader #this decorator links function below to JWTManager
 def add_claims_to_jwt(identity): #remember identity is user.id
@@ -70,6 +65,10 @@ def revoked_token_callback():
         'error': 'token_revoked'
     }), 401
 
+@app.before_first_request #this decorator affects the method below it.
+def create_tables():
+    db.create_all() #this functions will run before the first request and will create the data.db file.
+
 
 api.add_resource(Equity, '/equities/<string:name>')
 api.add_resource(Portfolio, '/portfolio')
@@ -80,6 +79,7 @@ api.add_resource(UserLogout, '/logout')
 api.add_resource(TokenRefresh, '/refresh')
 
 if __name__ == "main":
+    from db import db
     db.init_app(db) #we pass our Flask app here to avoid circular imports.
     app.run(port=5000, debug= True) #debug= True means that we won't have to restart our app every time we make a change.
 

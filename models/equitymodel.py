@@ -26,6 +26,10 @@ class EquityModel(db.Model): #db.Model means that we are retrieving this class f
         # it saves model to database, we do not need to tell SQLAlchemy which row to insert, just object (self).
         db.session.commit()
 
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
+
     def delete_from_db(self):
 
         db.session.delete(self)

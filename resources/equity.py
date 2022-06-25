@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
 from models.equitymodel import EquityModel
 from models.portfoliomodel import PortfolioModel
 
@@ -14,13 +14,14 @@ class Equity(Resource):
         help="This field cannot be left blank!"
     )
 
-    @jwt_required
+    @jwt_required(fresh=False)
     def get(self, name):
         equity = EquityModel.find_by_name(name)
         if equity:
             return equity.json()  # this is needed since we return an object, not a dictionary.
         return {'message': 'Equity not found'}, 404
 
+    @jwt_required(refresh=True)
     def post(self, name):
         #note that in this function the parsed data comes searching for an equity by its name.
         if EquityModel.find_by_name(name):
@@ -37,7 +38,12 @@ class Equity(Resource):
 
         return equity
 
+    @jwt_required(fresh=False)
     def delete(self, name):
+        claims = get_jwt()
+        if not claims['is_admin']:
+            return {'message': 'Admin privilege required.'}, 401
+
         equity = EquityModel.find_by_name(name)
 
         if equity: #i.e. if it finds an equity, then delete from db using method from Equity model.

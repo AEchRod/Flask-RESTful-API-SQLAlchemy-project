@@ -51,7 +51,7 @@ class User(Resource):
         user = UserModel.find_by_id(user_id) #this takes the user_id variable and applies it to UserModel.
         if not user:
             return {"message": "User not found"}, 404
-        return user.json() #this return json method from user
+        return user.json(), 200 #this return json method from user
 
     @classmethod
     def delete(self, user_id):
