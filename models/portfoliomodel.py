@@ -1,3 +1,7 @@
+import sys
+
+sys.path.insert(1, r'/Users/andresecheverry/Documents/Coding/Flask/ChafAPIRESTfulSQL')
+
 from db import db
 from equitymodel import EquityModel
 

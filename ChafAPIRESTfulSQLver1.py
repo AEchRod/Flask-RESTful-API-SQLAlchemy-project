@@ -1,3 +1,7 @@
+import sys
+
+sys.path.insert(1, r'/Users/andresecheverry/Documents/Coding/Flask/ChafAPIRESTfulSQL/resources')
+
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager

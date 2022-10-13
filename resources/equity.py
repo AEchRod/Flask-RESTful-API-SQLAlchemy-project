@@ -1,3 +1,7 @@
+import sys
+
+sys.path.insert(1, r'/Users/andresecheverry/Documents/Coding/Flask/ChafAPIRESTfulSQL/models')
+
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt
 from models.equitymodel import EquityModel
