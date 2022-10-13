@@ -9,10 +9,10 @@ This is the first time using a README file, Git to track changes and POSTMAN to 
 
 ## Installation/requirements
 
-flask-restful, flask-jwt (flask-jwt-extended), SQLAlchemy, SQLite3
+flask-restful, flask-jwt-extended, SQLAlchemy, SQLite3
 
 ## Notes
 
-This first iteration is based on the outdated flask-jwt extension, next version will include use of flask-jwt-extended to include features such as token refreshing, claims and callback.
+This first iteration was based on the outdated flask-jwt extension, it now includes the use of flask-jwt-extended to include features such as token refreshing, claims and callback.
 
 Also looking to implement a version of it which is hosted in Heroku or AWS.
